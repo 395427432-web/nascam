@@ -4,330 +4,268 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>NASCAM | 专业影视制作</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-:root{
-  --bg:#F5F1EB;--bg2:#EDE8E0;--paper:#FFFDF9;
-  --ink:#1A1A2E;--ink2:#4A4A5A;--ink3:#7A7A8A;
-  --accent:#C75B39;--accent2:#E8A87C;--gold:#B8860B;
-  --border:#D4CFC7;--shadow:0 4px 20px rgba(26,26,46,0.08);
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:'Space Grotesk','Noto Sans SC',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
-::-webkit-scrollbar{width:3px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--accent)}
-
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 4rem;height:70px;display:flex;justify-content:space-between;align-items:center;background:var(--paper);border-bottom:1px solid var(--border)}
+:root{--blue:#015CAB;--blue-g:#00D4FF;--blue-d:#003D7A;--bg:#080E1A;--bg2:#0D1520;--panel:#111D2E;--text:#F0F4FF;--text2:#8899BB;--text3:#445566;--accent:#FF3366}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Inter,"Noto Sans SC",sans-serif;line-height:1.6;overflow-x:hidden}
+@keyframes glitch{0%,100%{transform:translate(0)}10%{transform:translate(-3px,2px)}20%{transform:translate(3px,-2px)}30%{transform:translate(-2px,3px)}40%,100%{transform:translate(0)}}
+@keyframes scan{0%{top:-2%}100%{top:102%}}
+@keyframes flicker{0%,100%{opacity:1}92%{opacity:1}93%{opacity:0.3}94%{opacity:1}96%{opacity:0.5}97%{opacity:1}}
+@keyframes blink{0%,90%,100%{opacity:1}91%{opacity:0}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes borderPulse{0%,100%{border-color:rgba(1,92,171,0.3)}50%{border-color:rgba(0,212,255,0.6)}}
+.scanline-overlay{position:fixed;inset:0;pointer-events:none;z-index:9999}
+.scanline-overlay::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px)}
+.scanline-overlay::after{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(180deg,rgba(0,212,255,0.15),transparent);animation:scan 6s linear infinite}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:68px;padding:0 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,14,26,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(1,92,171,0.25);animation:flicker 8s infinite}
 .nav-logo{display:flex;align-items:center;gap:0.8rem;text-decoration:none}
-.nav-logo img{height:32px;width:auto;filter:grayscale(20%) contrast(1.1)}
-.nav-name{font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;letter-spacing:0.15em;color:var(--ink);text-transform:uppercase}
+.nav-logo img{height:34px;width:auto;filter:drop-shadow(0 0 12px rgba(1,92,171,0.8))}
+.nav-name{font-weight:800;font-size:1.1rem;letter-spacing:0.25em;color:var(--text);text-transform:uppercase}
 .nav-links{display:flex;gap:2.5rem;list-style:none}
-.nav-links a{font-size:0.75rem;font-weight:500;letter-spacing:0.08em;color:var(--ink2);text-decoration:none;transition:color 0.3s}
-.nav-links a:hover{color:var(--accent)}
+.nav-links a{font-size:0.72rem;font-weight:500;letter-spacing:0.12em;color:var(--text2);text-decoration:none;transition:all 0.3s;position:relative;padding-bottom:4px}
+.nav-links a::after{content:"";position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--blue-g);transition:width 0.3s;box-shadow:0 0 8px var(--blue-g)}
+.nav-links a:hover{color:var(--blue-g)}
+.nav-links a:hover::after{width:100%}
 .nav-right{display:flex;align-items:center;gap:1rem}
-.lang-btn{font-size:0.65rem;letter-spacing:0.1em;color:var(--ink3);text-decoration:none;border:1px solid var(--border);padding:0.35rem 0.9rem;transition:all 0.2s;text-transform:uppercase}
-.lang-btn:hover{border-color:var(--accent);color:var(--accent)}
-.nav-cta{font-size:0.72rem;font-weight:600;letter-spacing:0.06em;text-decoration:none;color:var(--paper);background:var(--ink);padding:0.55rem 1.6rem;transition:all 0.3s}
-.nav-cta:hover{background:var(--accent)}
-
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:8rem 2rem 6rem;background:var(--paper);position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
-.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
-.hero-deco{position:absolute;inset:2rem;border:1px solid var(--border);pointer-events:none}
-.hero-deco::before{content:'';position:absolute;top:1rem;left:1rem;right:1rem;bottom:1rem;border:1px solid var(--border);opacity:0.5}
-.hero-content{position:relative;z-index:2;max-width:800px}
-.hero-year{font-family:'Playfair Display',serif;font-size:0.7rem;letter-spacing:0.4em;color:var(--ink3);margin-bottom:1.5rem;text-transform:uppercase}
-.hero-logo{margin-bottom:2rem}
-.hero-logo img{width:clamp(140px,22vw,240px);height:auto;filter:grayscale(30%) contrast(1.05)}
-.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5.5vw,4.5rem);font-weight:700;line-height:1.1;letter-spacing:-0.02em;margin-bottom:1.5rem;color:var(--ink)}
-.hero-title em{font-style:italic;font-weight:400;color:var(--accent)}
-.hero-line{width:60px;height:2px;background:var(--accent);margin:0 auto 1.5rem}
-.hero-sub{font-size:0.9rem;color:var(--ink2);letter-spacing:0.15em;margin-bottom:2rem}
-.hero-tags{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.5rem}
-.htag{font-size:0.62rem;letter-spacing:0.12em;color:var(--ink3);border:1px solid var(--border);padding:0.35rem 1rem;text-transform:uppercase;background:var(--bg)}
-.hero-cta{display:flex;gap:1rem;justify-content:center}
-.btn-p{font-size:0.8rem;font-weight:600;letter-spacing:0.06em;padding:1rem 2.5rem;background:var(--ink);color:var(--paper);border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.3s}
-.btn-p:hover{background:var(--accent)}
-.btn-o{font-size:0.8rem;font-weight:500;letter-spacing:0.06em;padding:1rem 2.5rem;background:transparent;color:var(--ink);border:1px solid var(--ink);cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.3s}
-.btn-o:hover{background:var(--ink);color:var(--paper)}
-
-.sbar{background:var(--ink);padding:3rem 4rem;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.stat{text-align:center;padding:0 2rem;position:relative}
-.stat::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:rgba(255,255,255,0.1)}
+.lang-btn{font-size:0.65rem;letter-spacing:0.1em;color:var(--text2);text-decoration:none;border:1px solid rgba(1,92,171,0.3);padding:0.4rem 1rem;transition:all 0.3s;text-transform:uppercase}
+.lang-btn:hover{border-color:var(--blue-g);color:var(--blue-g);box-shadow:0 0 12px rgba(0,212,255,0.3)}
+.nav-cta{font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-decoration:none;color:var(--text);background:var(--blue);padding:0.6rem 1.8rem;transition:all 0.3s;text-transform:uppercase}
+.nav-cta:hover{background:var(--blue-g);box-shadow:0 0 25px var(--blue-g)}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:8rem 2rem 6rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(1,92,171,0.2) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 20% 80%,rgba(0,212,255,0.08) 0%,transparent 50%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(1,92,171,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(1,92,171,0.06) 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 0%,transparent 70%)}
+.hero-content{position:relative;z-index:2;max-width:950px}
+.hero-badge{display:inline-flex;align-items:center;gap:0.6rem;border:1px solid rgba(1,92,171,0.4);padding:0.5rem 1.5rem;margin-bottom:2.5rem;font-size:0.62rem;letter-spacing:0.35em;color:var(--blue-g);text-transform:uppercase;background:rgba(1,92,171,0.08);animation:borderPulse 3s ease-in-out infinite}
+.hero-badge::before{content:"";width:5px;height:5px;background:var(--blue-g);border-radius:50%;animation:blink 1.5s infinite;box-shadow:0 0 8px var(--blue-g)}
+.hero-logo-wrap{margin-bottom:2.5rem;animation:float 4s ease-in-out infinite}
+.hero-logo-wrap img{width:clamp(140px,22vw,260px);height:auto;filter:drop-shadow(0 0 25px rgba(1,92,171,0.9));transition:filter 0.3s}
+.hero-logo-wrap img:hover{filter:drop-shadow(0 0 40px rgba(0,212,255,1))}
+.hero-title{font-size:clamp(2.2rem,5.5vw,4.5rem);font-weight:800;line-height:1.08;letter-spacing:-0.01em;margin-bottom:1.5rem;text-transform:uppercase;animation:flicker 10s infinite}
+.hero-title .g-word{color:var(--blue-g);text-shadow:0 0 15px rgba(0,212,255,0.8),0 0 30px rgba(0,212,255,0.4);position:relative;display:inline-block;animation:glitch 4s ease-in-out infinite}
+.hero-title .g-word::before{content:attr(data-t);position:absolute;left:0;top:0;width:100%;height:100%;color:var(--accent);animation:glitch 0.4s ease-in-out infinite reverse;clip-path:polygon(0 25%,100% 25%,100% 45%,0 45%);transform:translate(-2px,-1px);opacity:0.8}
+.hero-title .g-word::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;height:100%;color:var(--blue);animation:glitch 0.4s ease-in-out infinite;clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%);transform:translate(2px,1px);opacity:0.8}
+.hero-divider{width:70px;height:2px;background:linear-gradient(90deg,transparent,var(--blue-g),transparent);margin:0 auto 1.5rem;box-shadow:0 0 15px var(--blue-g)}
+.hero-sub{font-size:0.95rem;color:var(--text2);letter-spacing:0.25em;margin-bottom:2.5rem;font-weight:300}
+.hero-tags{display:flex;gap:0.8rem;flex-wrap:wrap;justify-content:center;margin-bottom:3rem}
+.htag{font-size:0.68rem;letter-spacing:0.15em;color:var(--blue-g);border:1px solid rgba(0,212,255,0.25);padding:0.5rem 1.2rem;text-transform:uppercase;background:rgba(1,92,171,0.08);transition:all 0.3s}
+.htag:hover{border-color:var(--blue-g);background:rgba(0,212,255,0.12);box-shadow:0 0 15px rgba(0,212,255,0.3);transform:translateY(-2px)}
+.hero-cta{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{font-size:0.8rem;font-weight:700;letter-spacing:0.12em;padding:1.1rem 3rem;background:var(--blue);color:var(--text);border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.35s;text-transform:uppercase}
+.btn-primary:hover{background:var(--blue-g);color:var(--bg);box-shadow:0 0 30px rgba(0,212,255,0.5);transform:translateY(-2px)}
+.btn-outline{font-size:0.8rem;font-weight:500;letter-spacing:0.12em;padding:1.1rem 3rem;background:transparent;color:var(--text);border:1px solid rgba(1,92,171,0.5);cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.35s;text-transform:uppercase}
+.btn-outline:hover{border-color:var(--blue-g);color:var(--blue-g);box-shadow:0 0 20px rgba(0,212,255,0.3);transform:translateY(-2px)}
+.stats-bar{background:linear-gradient(90deg,var(--blue-d),var(--blue),var(--blue-d));padding:2.5rem 4rem;display:grid;grid-template-columns:repeat(4,1fr);position:relative;overflow:hidden}
+.stats-bar::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.2),transparent,rgba(0,0,0,0.2))}
+.stats-bar::after{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,212,255,0.5),transparent)}
+.stat{text-align:center;padding:0 1rem;position:relative}
+.stat::after{content:"";position:absolute;right:0;top:15%;bottom:15%;width:1px;background:rgba(255,255,255,0.08)}
 .stat:last-child::after{display:none}
-.sn{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:var(--paper);line-height:1;margin-bottom:0.3rem}
-.sl{font-size:0.7rem;color:rgba(255,255,255,0.5);letter-spacing:0.1em;text-transform:uppercase}
-
-section{padding:7rem 4rem;max-width:1100px;margin:0 auto}
-.slb{font-family:'Playfair Display',serif;font-size:0.6rem;letter-spacing:0.4em;color:var(--accent);text-transform:uppercase;margin-bottom:0.8rem}
-.st{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:1rem}
-.sline{width:40px;height:2px;background:var(--accent);margin-bottom:2rem}
-
-#about{display:grid;grid-template-columns:1.2fr 1fr;gap:5rem;align-items:center}
-.about-t p{font-size:0.92rem;line-height:1.9;color:var(--ink2);margin-bottom:1.2rem}
-.about-t strong{color:var(--ink);font-weight:600}
-.hl{color:var(--accent);font-weight:500}
-.about-v{display:flex;justify-content:center}
-.about-card{background:var(--paper);border:1px solid var(--border);padding:2.5rem;text-align:center;box-shadow:var(--shadow)}
-.about-card img{width:120px;height:auto;margin-bottom:1.5rem;filter:grayscale(30%)}
-.about-card h3{font-family:'Playfair Display',serif;font-size:1.3rem;letter-spacing:0.1em;margin-bottom:0.3rem}
-.about-card p{font-size:0.75rem;color:var(--ink3);letter-spacing:0.05em}
-
-#services{background:var(--bg2)}
-.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
-.svc{background:var(--paper);border:1px solid var(--border);padding:2rem;transition:all 0.3s}
-.svc:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:var(--shadow)}
-.svc-n{font-family:'Playfair Display',serif;font-size:0.9rem;color:var(--accent);margin-bottom:0.8rem}
-.svc h3{font-size:1rem;font-weight:600;margin-bottom:0.6rem;color:var(--ink)}
-.svc p{font-size:0.85rem;color:var(--ink2);line-height:1.7}
-.svc-tag{display:inline-block;margin-top:1rem;font-size:0.55rem;letter-spacing:0.15em;color:var(--ink3);border:1px solid var(--border);padding:0.2rem 0.6rem;text-transform:uppercase}
-
-.wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
-.wcard{background:var(--paper);border:1px solid var(--border);overflow:hidden;transition:all 0.3s}
-.wcard:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-.vw{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:var(--ink)}
-.vw video{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(20%) contrast(1.05)}
-.vwo{position:absolute;inset:0;background:rgba(26,26,46,0.6);display:flex;justify-content:center;align-items:center;cursor:pointer;opacity:0;transition:opacity 0.3s}
-.vw:hover .vwo{opacity:1}
-.play{width:48px;height:48px;border-radius:50%;background:var(--paper);display:flex;justify-content:center;align-items:center}
-.play::after{content:'';width:0;height:0;border-left:14px solid var(--ink);border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:3px}
-.winfo{padding:1.2rem}
-.wcat{font-size:0.55rem;letter-spacing:0.15em;color:var(--accent);text-transform:uppercase;margin-bottom:0.3rem}
-.wtitle{font-size:0.95rem;font-weight:600;color:var(--ink)}
-
-#process{background:var(--paper)}
-.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:3rem}
-.pstep{text-align:center;padding:1.5rem;position:relative}
-.pstep::before{content:'';position:absolute;top:2rem;left:-1rem;right:-1rem;height:1px;background:var(--border);z-index:0}
-.pnum{width:4rem;height:4rem;border-radius:50%;border:2px solid var(--border);background:var(--paper);display:flex;justify-content:center;align-items:center;margin:0 auto 1rem;font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--accent);position:relative;z-index:1}
-.pstep h4{font-size:0.9rem;font-weight:600;margin-bottom:0.4rem}
-.pstep p{font-size:0.8rem;color:var(--ink2)}
-
-.cta{background:var(--ink);text-align:center;padding:6rem 4rem}
-.cta h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--paper);margin-bottom:1rem}
-.cta p{color:rgba(255,255,255,0.6);margin-bottom:2rem}
-.cta .btn-p{background:var(--paper);color:var(--ink)}
-.cta .btn-p:hover{background:var(--accent);color:var(--paper)}
-
-#contact{display:grid;grid-template-columns:1fr 1fr;gap:5rem}
-.ci p{font-size:0.9rem;color:var(--ink2);margin-bottom:2rem}
-.ci-item{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
-.ci-icon{width:40px;height:40px;border:1px solid var(--border);display:flex;justify-content:center;align-items:center}
-.ci-lbl{font-size:0.55rem;letter-spacing:0.15em;color:var(--ink3);text-transform:uppercase}
-.ci-val{font-size:0.9rem;color:var(--ink)}
-.cf{display:flex;flex-direction:column;gap:1rem}
-.cf input,.cf textarea{background:var(--paper);border:1px solid var(--border);padding:0.9rem 1.2rem;font-size:0.85rem;color:var(--ink);outline:none;transition:border-color 0.2s;font-family:inherit}
-.cf input:focus,.cf textarea:focus{border-color:var(--accent)}
-.cf textarea{min-height:120px;resize:vertical}
-.cf button{background:var(--ink);color:var(--paper);border:none;padding:1rem;font-size:0.85rem;font-weight:600;letter-spacing:0.05em;cursor:pointer;transition:background 0.2s}
-.cf button:hover{background:var(--accent)}
-
-footer{background:var(--ink);padding:3rem 4rem}
-.fwrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:auto 1fr 1fr;gap:3rem;align-items:start}
-.flogo{display:flex;flex-direction:column;align-items:center;gap:0.5rem}
-.flogo img{height:40px;filter:grayscale(30%) brightness(2)}
-.flogo span{font-family:'Playfair Display',serif;font-size:0.9rem;letter-spacing:0.15em;color:var(--paper)}
-.fc h5{font-size:0.55rem;letter-spacing:0.3em;color:rgba(255,255,255,0.3);text-transform:uppercase;margin-bottom:1rem}
-.fc a,.fc p{display:block;font-size:0.8rem;color:rgba(255,255,255,0.5);text-decoration:none;line-height:2;transition:color 0.2s}
-.fc a:hover{color:var(--accent2)}
-.fbot{padding:1.5rem 4rem;background:#111;display:flex;justify-content:space-between;font-size:0.7rem;color:rgba(255,255,255,0.3)}
-
-.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s,transform 0.6s}
+.stat-num{font-size:2.5rem;font-weight:800;color:var(--text);line-height:1;margin-bottom:0.3rem;text-shadow:0 0 20px rgba(0,212,255,0.5)}
+.stat-label{font-size:0.62rem;color:rgba(255,255,255,0.6);letter-spacing:0.2em;text-transform:uppercase}
+section{padding:7rem 4rem;max-width:1280px;margin:0 auto}
+.section-header{text-align:center;margin-bottom:4rem}
+.section-label{font-size:0.62rem;letter-spacing:0.5em;color:var(--blue-g);text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;justify-content:center;gap:1rem}
+.section-label::before,.section-label::after{content:"";width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--blue-g))}
+.section-label::after{background:linear-gradient(90deg,var(--blue-g),transparent)}
+.section-title{font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.1;margin-bottom:1rem;text-transform:uppercase}
+.section-title span{color:var(--blue-g);text-shadow:0 0 15px rgba(0,212,255,0.6)}
+.section-line{width:50px;height:3px;background:linear-gradient(90deg,var(--blue),var(--blue-g));margin:0 auto;box-shadow:0 0 12px var(--blue-g)}
+.about-section{display:grid;grid-template-columns:1.2fr 1fr;gap:5rem;align-items:center;padding:7rem 4rem;max-width:1280px;margin:0 auto}
+.about-text p{font-size:0.95rem;line-height:2;color:var(--text2);margin-bottom:1.5rem}
+.about-text strong{color:var(--text);font-weight:600}
+.hl{color:var(--blue-g);font-weight:500;text-shadow:0 0 8px rgba(0,212,255,0.5)}
+.about-visual{display:flex;justify-content:center;align-items:center}
+.about-card{background:var(--panel);border:1px solid rgba(1,92,171,0.3);padding:3rem;text-align:center;position:relative;overflow:hidden;animation:borderPulse 4s ease-in-out infinite}
+.about-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--blue-g));box-shadow:0 0 15px var(--blue-g)}
+.about-card img{width:130px;height:auto;margin-bottom:1.5rem;filter:drop-shadow(0 0 20px rgba(1,92,171,0.8));position:relative;z-index:1}
+.about-card h3{font-size:1.3rem;font-weight:800;letter-spacing:0.2em;margin-bottom:0.5rem;color:var(--blue-g);position:relative;z-index:1}
+.about-card p{font-size:0.78rem;color:var(--text2);letter-spacing:0.1em;position:relative;z-index:1}
+.services-section{background:var(--bg2);padding:7rem 4rem}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1280px;margin:0 auto}
+.svc{background:var(--panel);border:1px solid rgba(1,92,171,0.2);padding:2rem;transition:all 0.4s;position:relative;overflow:hidden;cursor:default}
+.svc::before{content:"";position:absolute;top:0;left:0;width:3px;height:0;background:linear-gradient(to bottom,var(--blue),var(--blue-g));transition:height 0.5s;box-shadow:0 0 10px var(--blue-g)}
+.svc:hover{border-color:rgba(0,212,255,0.4);transform:translateY(-6px);box-shadow:0 15px 40px rgba(1,92,171,0.25)}
+.svc:hover::before{height:100%}
+.svc-num{font-size:2.5rem;font-weight:800;color:rgba(1,92,171,0.2);margin-bottom:0.5rem;line-height:1;font-family:Inter,sans-serif}
+.svc h3{font-size:1.05rem;font-weight:700;margin-bottom:0.8rem;color:var(--text)}
+.svc p{font-size:0.85rem;color:var(--text2);line-height:1.8}
+.svc-tag{display:inline-block;margin-top:1.2rem;font-size:0.58rem;letter-spacing:0.2em;color:var(--blue-g);border:1px solid rgba(0,212,255,0.25);padding:0.3rem 0.8rem;text-transform:uppercase}
+.works-section{padding:7rem 4rem;max-width:1280px;margin:0 auto}
+.wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.wcard{background:var(--panel);border:1px solid rgba(1,92,171,0.2);overflow:hidden;transition:all 0.4s;cursor:pointer}
+.wcard:hover{border-color:rgba(0,212,255,0.5);transform:translateY(-5px);box-shadow:0 20px 50px rgba(1,92,171,0.3)}
+.vwrap{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:var(--bg)}
+.vwrap video{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s}
+.wcard:hover .vwrap video{transform:scale(1.05)}
+.voverlay{position:absolute;inset:0;background:rgba(1,92,171,0.6);display:flex;justify-content:center;align-items:center;opacity:0;transition:opacity 0.3s;cursor:pointer}
+.vwrap:hover .voverlay{opacity:1}
+.vplay{width:56px;height:56px;border:2px solid rgba(255,255,255,0.9);display:flex;justify-content:center;align-items:center;transition:all 0.3s}
+.vplay::after{content:"";width:0;height:0;border-left:16px solid #fff;border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:3px}
+.wcard:hover .vplay{border-color:var(--blue-g);box-shadow:0 0 25px var(--blue-g);transform:scale(1.1)}
+.vinfo{padding:1.3rem}
+.vcat{font-size:0.58rem;letter-spacing:0.25em;color:var(--blue-g);text-transform:uppercase;margin-bottom:0.4rem}
+.vtitle{font-size:0.95rem;font-weight:600;color:var(--text)}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:1280px;margin:0 auto}
+.pstep{text-align:center;padding:2rem;background:var(--panel);border:1px solid rgba(1,92,171,0.2);transition:all 0.4s}
+.pstep:hover{border-color:var(--blue-g);box-shadow:0 0 30px rgba(0,212,255,0.2)}
+.pnum{width:5rem;height:5rem;border:2px solid var(--blue);display:flex;justify-content:center;align-items:center;margin:0 auto 1.5rem;font-size:1.3rem;font-weight:800;color:var(--blue-g);text-shadow:0 0 10px var(--blue-g);transition:all 0.3s}
+.pstep:hover .pnum{border-color:var(--blue-g);box-shadow:0 0 20px var(--blue-g)}
+.pstep h4{font-size:1rem;font-weight:700;margin-bottom:0.6rem;color:var(--text)}
+.pstep p{font-size:0.85rem;color:var(--text2)}
+.cta{background:linear-gradient(135deg,var(--blue-d),var(--blue));text-align:center;padding:8rem 4rem;position:relative;overflow:hidden}
+.cta::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(0,212,255,0.1) 0%,transparent 50%)}
+.cta-content{position:relative;z-index:1}
+.cta h2{font-size:clamp(2rem,4vw,3.5rem);font-weight:800;margin-bottom:1rem;text-transform:uppercase}
+.cta h2 span{color:var(--blue-g);text-shadow:0 0 10px var(--blue-g)}
+.cta p{color:rgba(255,255,255,0.7);margin-bottom:2.5rem;font-size:1.1rem}
+.cta .btn-primary{background:var(--text);color:var(--bg)}
+.cta .btn-primary:hover{background:var(--blue-g)}
+#contact{display:grid;grid-template-columns:1fr 1fr;gap:5rem;padding:7rem 4rem;max-width:1280px;margin:0 auto}
+.ci p{font-size:0.95rem;color:var(--text2);margin-bottom:2.5rem;line-height:1.8}
+.ci-item{display:flex;align-items:center;gap:1.2rem;margin-bottom:1.5rem;padding:1rem;background:var(--panel);border-left:3px solid var(--blue);transition:all 0.3s}
+.ci-item:hover{border-left-color:var(--blue-g);box-shadow:0 0 20px rgba(0,212,255,0.1)}
+.ci-icon{width:50px;height:50px;border:1px solid rgba(1,92,171,0.3);display:flex;justify-content:center;align-items:center;font-size:1.2rem;color:var(--blue-g);flex-shrink:0}
+.ci-lbl{font-size:0.6rem;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase;margin-bottom:0.3rem}
+.ci-val{font-size:1rem;color:var(--text);font-weight:500}
+.cf{display:flex;flex-direction:column;gap:1.2rem}
+.cf input,.cf textarea{background:var(--panel);border:1px solid rgba(1,92,171,0.3);padding:1rem 1.2rem;font-size:0.9rem;color:var(--text);outline:none;transition:all 0.3s;font-family:inherit}
+.cf input:focus,.cf textarea:focus{border-color:var(--blue-g);box-shadow:0 0 15px rgba(0,212,255,0.2)}
+.cf input::placeholder,.cf textarea::placeholder{color:var(--text3)}
+.cf textarea{min-height:140px;resize:vertical}
+.cf button{background:var(--blue);color:var(--text);border:none;padding:1.2rem;font-size:0.9rem;font-weight:700;letter-spacing:0.1em;cursor:pointer;transition:all 0.3s;text-transform:uppercase}
+.cf button:hover{background:var(--blue-g);color:var(--bg);box-shadow:0 0 20px var(--blue-g)}
+footer{background:var(--bg2);padding:4rem;border-top:1px solid rgba(1,92,171,0.2)}
+.fwrap{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:auto 1fr 1fr;gap:4rem;align-items:start}
+.flogo{display:flex;flex-direction:column;align-items:center;gap:0.8rem}
+.flogo img{height:50px;filter:drop-shadow(0 0 15px var(--blue))}
+.flogo span{font-size:1.1rem;font-weight:800;letter-spacing:0.2em;color:var(--blue-g)}
+.fc h5{font-size:0.65rem;letter-spacing:0.3em;color:var(--text3);text-transform:uppercase;margin-bottom:1.5rem}
+.fc a,.fc p{display:block;font-size:0.85rem;color:var(--text2);text-decoration:none;line-height:2.2;transition:all 0.3s}
+.fc a:hover{color:var(--blue-g);text-shadow:0 0 10px rgba(0,212,255,0.5)}
+.fbot{padding:2rem 4rem;background:var(--bg);display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:var(--text3);border-top:1px solid rgba(1,92,171,0.1)}
+.fbot span{display:flex;align-items:center;gap:0.5rem}
+.fbot span::before{content:"";width:8px;height:8px;background:var(--blue);border-radius:50%;animation:blink 2s infinite}
+.reveal{opacity:0;transform:translateY(30px);transition:all 0.8s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
-
-@media(max-width:900px){
-  .nav{padding:0 1.5rem}
-  .nav-links{display:none}
-  #about,#contact{grid-template-columns:1fr;gap:3rem}
-  .sgrid,.wgrid{grid-template-columns:1fr 1fr}
-  .pgrid{grid-template-columns:1fr 1fr}
-  .sbar{grid-template-columns:repeat(2,1fr);gap:2rem}
-  .stat::after{display:none}
-  .fwrap{grid-template-columns:1fr}
-  .flogo{align-items:flex-start}
-  section{padding:5rem 1.5rem}
-}
-@media(max-width:600px){
-  .sgrid,.wgrid,.pgrid{grid-template-columns:1fr}
-  .sbar{grid-template-columns:1fr}
-}
+@media(max-width:900px){.nav{padding:0 1.5rem}.nav-links{display:none}#contact,.about-section{grid-template-columns:1fr;gap:3rem}.sgrid,.wgrid{grid-template-columns:1fr 1fr}.pgrid{grid-template-columns:1fr 1fr}.stat::after{display:none}.fwrap{grid-template-columns:1fr;text-align:center}.flogo{align-items:center}section,.services-section,.works-section{padding:5rem 1.5rem}.fbot{flex-direction:column;gap:1rem;text-align:center}}
+@media(max-width:600px){.sgrid,.wgrid,.pgrid{grid-template-columns:1fr}.sbar{grid-template-columns:1fr}.hero-cta{flex-direction:column}}
 </style>
 </head>
 <body>
-
+<div class="scanline-overlay"></div>
 <nav class="nav">
-  <a href="#" class="nav-logo">
-    <img src="logo.jpg" alt="NASCAM"/>
-    <span class="nav-name">NASCAM</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#about">关于</a></li>
-    <li><a href="#services">服务</a></li>
-    <li><a href="#works">作品</a></li>
-    <li><a href="#process">流程</a></li>
-  </ul>
-  <div class="nav-right">
-    <a href="en.html" class="lang-btn">EN / 中文</a>
-    <a href="#contact" class="nav-cta">联系我们</a>
-  </div>
+<a href="#" class="nav-logo"><img src="logo.jpg" alt="NASCAM"/><span class="nav-name">NASCAM</span></a>
+<ul class="nav-links"><li><a href="#about">关于</a></li><li><a href="#services">服务</a></li><li><a href="#works">作品</a></li><li><a href="#process">流程</a></li></ul>
+<div class="nav-right"><a href="en.html" class="lang-btn">EN / 中文</a><a href="#contact" class="nav-cta">联系我们</a></div>
 </nav>
-
 <section class="hero">
-  <div class="hero-deco"></div>
-  <div class="hero-content">
-    <div class="hero-year">Est. 2019 · Chongqing</div>
-    <div class="hero-logo"><img src="logo.jpg" alt="NASCAM"/></div>
-    <h1 class="hero-title">用镜头讲述<br/><em>每一个故事</em></h1>
-    <div class="hero-line"></div>
-    <p class="hero-sub">专业影视制作 · 视觉创意 · 品牌影像</p>
-    <div class="hero-tags">
-      <span class="htag">TVC广告</span>
-      <span class="htag">企业宣传片</span>
-      <span class="htag">活动拍摄</span>
-      <span class="htag">纪录片</span>
-    </div>
-    <div class="hero-cta">
-      <a href="#works" class="btn-p">观看作品</a>
-      <a href="#contact" class="btn-o">联系我们</a>
-    </div>
-  </div>
-</section>
-
-<div class="sbar">
-  <div class="stat"><div class="sn">200+</div><div class="sl">完成项目</div></div>
-  <div class="stat"><div class="sn">50+</div><div class="sl">合作品牌</div></div>
-  <div class="stat"><div class="sn">5年+</div><div class="sl">行业经验</div></div>
-  <div class="stat"><div class="sn">100%</div><div class="sl">客户满意</div></div>
+<div class="hero-bg"></div><div class="hero-grid"></div>
+<div class="hero-content">
+<div class="hero-badge">专业影视制作机构</div>
+<div class="hero-logo-wrap"><img src="logo.jpg" alt="NASCAM"/></div>
+<h1 class="hero-title">用<span class="g-word" data-t="镜头">镜头</span>讲述<br/>每一个故事</h1>
+<div class="hero-divider"></div>
+<p class="hero-sub">专业影视制作 · 视觉创意 · 品牌影像 · 重庆</p>
+<div class="hero-tags"><span class="htag">TVC广告</span><span class="htag">企业宣传片</span><span class="htag">活动拍摄</span><span class="htag">纪录片</span></div>
+<div class="hero-cta"><a href="#works" class="btn-primary">观看作品</a><a href="#contact" class="btn-outline">联系我们</a></div>
+</div></section>
+<div class="stats-bar"><div class="stat"><div class="stat-num">200+</div><div class="stat-label">完成项目</div></div><div class="stat"><div class="stat-num">50+</div><div class="stat-label">合作品牌</div></div><div class="stat"><div class="stat-num">5年+</div><div class="stat-label">行业经验</div></div><div class="stat"><div class="stat-num">100%</div><div class="stat-label">客户满意</div></div></div>
+<div class="about-section" id="about">
+<div class="about-text reveal">
+<div class="section-label">01 / About</div>
+<h2 class="section-title">我们是谁</h2>
+<div class="section-line"></div>
+<p><strong>NASCAM</strong> 是一家专注于影视制作与视觉创意的内容机构，致力于为品牌和企业提供高品质的影像解决方案。</p>
+<p>我们相信，每一次拍摄都是一次叙事的艺术。从策划、拍摄到后期制作，每一个环节我们都追求极致，用镜头语言为客户讲好每一个<span class="hl">独一无二的故事</span>。</p>
+<p>我们的团队由资深导演、摄影指导、剪辑师和包装设计师组成，覆盖从前期创意到最终交付的全链路制作能力。</p>
 </div>
-
-<section id="about">
-  <div class="about-t reveal">
-    <div class="slb">01 / About Us</div>
-    <h2 class="st">我们是谁</h2>
-    <div class="sline"></div>
-    <p><strong>NASCAM</strong> 是一家专注于影视制作与视觉创意的内容机构，致力于为品牌和企业提供高品质的影像解决方案。</p>
-    <p>我们相信，每一次拍摄都是一次叙事的艺术。从策划、拍摄到后期制作，每一个环节我们都追求极致，用镜头语言为客户讲好每一个<span class="hl">独一无二的故事</span>。</p>
-    <p>我们的团队由资深导演、摄影指导、剪辑师和包装设计师组成，覆盖从前期创意到最终交付的全链路制作能力。</p>
-  </div>
-  <div class="about-v reveal">
-    <div class="about-card">
-      <img src="logo.jpg" alt="NASCAM"/>
-      <h3>NASCAM</h3>
-      <p>用镜头讲好每一个故事</p>
-    </div>
-  </div>
-</section>
-
-<section id="services">
-  <div class="reveal">
-    <div class="slb">02 / Services</div>
-    <h2 class="st">服务内容</h2>
-    <div class="sline"></div>
-  </div>
-  <div class="sgrid">
-    <div class="svc reveal"><div class="svc-n">01</div><h3>TVC 广告片</h3><p>电视及网络广告创意制作，覆盖 TVC、贴片广告、信息流广告等多种形式。</p><span class="svc-tag">Commercial</span></div>
-    <div class="svc reveal"><div class="svc-n">02</div><h3>企业宣传片</h3><p>企业形象片、品牌故事片、产品宣传片，适用于官网展示、商务洽谈、展会投放。</p><span class="svc-tag">Corporate</span></div>
-    <div class="svc reveal"><div class="svc-n">03</div><h3>活动拍摄</h3><p>发布会、展会、年会等商业活动的全程影像记录，多机位配置配合快速交付。</p><span class="svc-tag">Events</span></div>
-    <div class="svc reveal"><div class="svc-n">04</div><h3>纪录片 / 短剧</h3><p>人物纪录片、企业历史片、剧情短片，以电影级叙事手法呈现真实力量。</p><span class="svc-tag">Documentary</span></div>
-    <div class="svc reveal"><div class="svc-n">05</div><h3>后期剪辑 &amp; 包装</h3><p>专业剪辑、调色、二维/三维动画包装，为视频注入专业视觉质感。</p><span class="svc-tag">Post-Production</span></div>
-    <div class="svc reveal"><div class="svc-n">06</div><h3>社交媒体内容</h3><p>短视频、品牌图文等社交媒体适配内容，覆盖抖音、小红书、视频号等平台。</p><span class="svc-tag">Social Media</span></div>
-  </div>
-</section>
-
-<section id="works">
-  <div class="reveal">
-    <div class="slb">03 / Portfolio</div>
-    <h2 class="st">作品展示</h2>
-    <div class="sline"></div>
-  </div>
-  <div class="wgrid">
-    <div class="wcard reveal"><div class="vw"><video src="file:///C:/Users/Administrator/Desktop/nascam/007e11584523b4aea37764aaac2c20f3.mp4" muted preload="none"></video><div class="vwo" onclick="tp(this)"><div class="play"></div></div></div><div class="winfo"><div class="wcat">TVC 广告</div><div class="wtitle">品牌商业广告 #01</div></div></div>
-    <div class="wcard reveal"><div class="vw"><video src="file:///C:/Users/Administrator/Desktop/nascam/1d2f0d7b2b6b6967b70063d94918e662.mp4" muted preload="none"></video><div class="vwo" onclick="tp(this)"><div class="play"></div></div></div><div class="winfo"><div class="wcat">企业宣传片</div><div class="wtitle">企业形象片 #02</div></div></div>
-    <div class="wcard reveal"><div class="vw"><video src="file:///C:/Users/Administrator/Desktop/nascam/58478d9b74ae00a7eaa8c3eb0cab6a4e.mp4" muted preload="none"></video><div class="vwo" onclick="tp(this)"><div class="play"></div></div></div><div class="winfo"><div class="wcat">活动拍摄</div><div class="wtitle">商业活动记录 #03</div></div></div>
-    <div class="wcard reveal"><div class="vw"><video src="file:///C:/Users/Administrator/Desktop/nascam/80462a0d4d414b9d39e9bd7c2040181c.mp4" muted preload="none"></video><div class="vwo" onclick="tp(this)"><div class="play"></div></div></div><div class="winfo"><div class="wcat">纪录片</div><div class="wtitle">品牌故事片 #04</div></div></div>
-    <div class="wcard reveal"><div class="vw"><video src="file:///C:/Users/Administrator/Desktop/nascam/dc5d60f2ee16e4aea2c8fc6ec4e3bfb3.mp4" muted preload="none"></video><div class="vwo" onclick="tp(this)"><div class="play"></div></div></div><div class="winfo"><div class="wcat">TVC 广告</div><div class="wtitle">产品广告片 #05</div></div></div>
-    <div class="wcard reveal"><div class="vw"><video src="file:///C:/Users/Administrator/Desktop/nascam/f3b57f85ed422eec2afd7fb4b3d8b7e5.mp4" muted preload="none"></video><div class="vwo" onclick="tp(this)"><div class="play"></div></div></div><div class="winfo"><div class="wcat">社交媒体</div><div class="wtitle">短视频内容 #06</div></div></div>
-  </div>
-</section>
-
-<section id="process">
-  <div class="reveal">
-    <div class="slb">04 / Process</div>
-    <h2 class="st">合作流程</h2>
-    <div class="sline"></div>
-  </div>
-  <div class="pgrid">
-    <div class="pstep reveal"><div class="pnum">01</div><h4>需求沟通</h4><p>深入了解项目背景与目标</p></div>
-    <div class="pstep reveal"><div class="pnum">02</div><h4>创意策划</h4><p>制定拍摄方案与视觉风格</p></div>
-    <div class="pstep reveal"><div class="pnum">03</div><h4>拍摄执行</h4><p>专业团队现场拍摄制作</p></div>
-    <div class="pstep reveal"><div class="pnum">04</div><h4>后期交付</h4><p>精剪调色，完美呈现</p></div>
-  </div>
-</section>
-
+<div class="about-visual reveal">
+<div class="about-card"><img src="logo.jpg" alt="NASCAM"/><h3>NASCAM</h3><p>用镜头讲好每一个故事</p></div>
+</div></div>
+<div class="services-section" id="services">
+<div class="section-header reveal">
+<div class="section-label">02 / Services</div>
+<h2 class="section-title">服务<span>内容</span></h2>
+<div class="section-line"></div>
+</div>
+<div class="sgrid">
+<div class="svc reveal"><div class="svc-num">01</div><h3>TVC 广告片</h3><p>电视及网络广告创意制作，覆盖 TVC、贴片广告，信息流广告等多种形式。</p><span class="svc-tag">Commercial</span></div>
+<div class="svc reveal"><div class="svc-num">02</div><h3>企业宣传片</h3><p>企业形象片、品牌故事片、产品宣传片，适用于官网展示、商务洽谈、展会投放。</p><span class="svc-tag">Corporate</span></div>
+<div class="svc reveal"><div class="svc-num">03</div><h3>活动拍摄</h3><p>发布会、展会、年会等商业活动的全程影像记录，多机位配置配合快速交付。</p><span class="svc-tag">Events</span></div>
+<div class="svc reveal"><div class="svc-num">04</div><h3>纪录片 / 短剧</h3><p>人物纪录片、企业历史片、剧情短片，以电影级叙事手法呈现真实力量。</p><span class="svc-tag">Documentary</span></div>
+<div class="svc reveal"><div class="svc-num">05</div><h3>后期剪辑 &amp; 包装</h3><p>专业剪辑、调色、二维/三维动画包装，为视频注入专业视觉质感。</p><span class="svc-tag">Post-Production</span></div>
+<div class="svc reveal"><div class="svc-num">06</div><h3>社交媒体内容</h3><p>短视频、品牌图文等社交媒体适配内容，覆盖抖音、小红书、视频号等平台。</p><span class="svc-tag">Social Media</span></div>
+</div></div>
+<div class="works-section" id="works">
+<div class="section-header reveal">
+<div class="section-label">03 / Portfolio</div>
+<h2 class="section-title">作品<span>展示</span></h2>
+<div class="section-line"></div>
+</div>
+<div class="wgrid">
+<div class="wcard reveal"><div class="vwrap"><video src="file:///C:/Users/Administrator/Desktop/nascam/007e11584523b4aea37764aaac2c20f3.mp4" muted preload="none"></video><div class="voverlay" onclick="togglePlay(this)"><div class="vplay"></div></div></div><div class="vinfo"><div class="vcat">TVC 广告</div><div class="vtitle">品牌商业广告 #01</div></div></div>
+<div class="wcard reveal"><div class="vwrap"><video src="file:///C:/Users/Administrator/Desktop/nascam/1d2f0d7b2b6b6967b70063d94918e662.mp4" muted preload="none"></video><div class="voverlay" onclick="togglePlay(this)"><div class="vplay"></div></div></div><div class="vinfo"><div class="vcat">企业宣传片</div><div class="vtitle">企业形象片 #02</div></div></div>
+<div class="wcard reveal"><div class="vwrap"><video src="file:///C:/Users/Administrator/Desktop/nascam/58478d9b74ae00a7eaa8c3eb0cab6a4e.mp4" muted preload="none"></video><div class="voverlay" onclick="togglePlay(this)"><div class="vplay"></div></div></div><div class="vinfo"><div class="vcat">活动拍摄</div><div class="vtitle">商业活动记录 #03</div></div></div>
+<div class="wcard reveal"><div class="vwrap"><video src="file:///C:/Users/Administrator/Desktop/nascam/80462a0d4d414b9d39e9bd7c2040181c.mp4" muted preload="none"></video><div class="voverlay" onclick="togglePlay(this)"><div class="vplay"></div></div></div><div class="vinfo"><div class="vcat">纪录片</div><div class="vtitle">品牌故事片 #04</div></div></div>
+<div class="wcard reveal"><div class="vwrap"><video src="file:///C:/Users/Administrator/Desktop/nascam/dc5d60f2ee16e4aea2c8fc6ec4e3bfb3.mp4" muted preload="none"></video><div class="voverlay" onclick="togglePlay(this)"><div class="vplay"></div></div></div><div class="vinfo"><div class="vcat">TVC 广告</div><div class="vtitle">产品广告片 #05</div></div></div>
+<div class="wcard reveal"><div class="vwrap"><video src="file:///C:/Users/Administrator/Desktop/nascam/f3b57f85ed422eec2afd7fb4b3d8b7e5.mp4" muted preload="none"></video><div class="voverlay" onclick="togglePlay(this)"><div class="vplay"></div></div></div><div class="vinfo"><div class="vcat">社交媒体</div><div class="vtitle">短视频内容 #06</div></div></div>
+</div></div>
+<div id="process" class="services-section">
+<div class="section-header reveal">
+<div class="section-label">04 / Process</div>
+<h2 class="section-title">合作<span>流程</span></h2>
+<div class="section-line"></div>
+</div>
+<div class="pgrid">
+<div class="pstep reveal"><div class="pnum">01</div><h4>需求沟通</h4><p>深入了解项目背景与目标</p></div>
+<div class="pstep reveal"><div class="pnum">02</div><h4>创意策划</h4><p>制定拍摄方案与视觉风格</p></div>
+<div class="pstep reveal"><div class="pnum">03</div><h4>拍摄执行</h4><p>专业团队现场拍摄制作</p></div>
+<div class="pstep reveal"><div class="pnum">04</div><h4>后期交付</h4><p>精剪调色，完美呈现</p></div>
+</div></div>
 <div class="cta">
-  <div class="reveal">
-    <h2>准备好开始您的项目了吗？</h2>
-    <p>让我们一起用镜头讲述您的品牌故事</p>
-    <a href="#contact" class="btn-p">立即咨询</a>
-  </div>
+<div class="cta-content reveal">
+<h2>准备好开始您的<span>项目</span>了吗？</h2>
+<p>让我们一起用镜头讲述您的品牌故事</p>
+<a href="#contact" class="btn-primary">立即咨询</a>
+</div></div>
+<div id="contact">
+<div class="ci reveal">
+<div class="section-label">05 / Contact</div>
+<h2 class="section-title">联系<span>我们</span></h2>
+<div class="section-line"></div>
+<p>无论您有任何影视制作需求，欢迎随时与我们联系。我们期待与您合作，共同创造精彩的视觉内容。</p>
+<div class="ci-item"><div class="ci-icon">@</div><div><div class="ci-lbl">邮箱</div><div class="ci-val">395427432@qq.com</div></div></div>
+<div class="ci-item"><div class="ci-icon">Wx</div><div><div class="ci-lbl">微信</div><div class="ci-val">MutonZhou</div></div></div>
+<div class="ci-item"><div class="ci-icon">Loc</div><div><div class="ci-lbl">地址</div><div class="ci-val">中国 · 重庆</div></div></div>
 </div>
-
-<section id="contact">
-  <div class="ci reveal">
-    <div class="slb">05 / Contact</div>
-    <h2 class="st">联系我们</h2>
-    <div class="sline"></div>
-    <p>无论您有任何影视制作需求，欢迎随时与我们联系。我们期待与您合作，共同创造精彩的视觉内容。</p>
-    <div class="ci-item"><div class="ci-icon">@</div><div><div class="ci-lbl">邮箱</div><div class="ci-val">395427432@qq.com</div></div></div>
-    <div class="ci-item"><div class="ci-icon">Wx</div><div><div class="ci-lbl">微信</div><div class="ci-val">MutonZhou</div></div></div>
-    <div class="ci-item"><div class="ci-icon">Loc</div><div><div class="ci-lbl">地址</div><div class="ci-val">中国 · 重庆</div></div></div>
-  </div>
-  <div class="cf reveal">
-    <input type="text" placeholder="您的姓名"/>
-    <input type="email" placeholder="您的邮箱"/>
-    <input type="text" placeholder="项目类型"/>
-    <textarea placeholder="项目描述"></textarea>
-    <button>发送消息</button>
-  </div>
-</section>
-
+<div class="cf reveal">
+<input type="text" placeholder="您的姓名"/>
+<input type="email" placeholder="您的邮箱"/>
+<input type="text" placeholder="项目类型"/>
+<textarea placeholder="项目描述"></textarea>
+<button>发送消息</button>
+</div></div>
 <footer>
-  <div class="fwrap">
-    <div class="flogo">
-      <img src="logo.jpg" alt="NASCAM"/>
-      <span>NASCAM</span>
-    </div>
-    <div class="fc">
-      <h5>导航</h5>
-      <a href="#about">关于我们</a>
-      <a href="#services">服务内容</a>
-      <a href="#works">作品展示</a>
-      <a href="#contact">联系我们</a>
-    </div>
-    <div class="fc">
-      <h5>联系</h5>
-      <p>395427432@qq.com</p>
-      <p>微信: MutonZhou</p>
-      <p>中国 · 重庆</p>
-    </div>
-  </div>
-</footer>
-<div class="fbot">
-  <span>&copy; 2024 NASCAM. All rights reserved.</span>
-  <span>用镜头讲好每一个故事</span>
+<div class="fwrap">
+<div class="flogo"><img src="logo.jpg" alt="NASCAM"/><span>NASCAM</span></div>
+<div class="fc"><h5>导航</h5><a href="#about">关于我们</a><a href="#services">服务内容</a><a href="#works">作品展示</a><a href="#contact">联系我们</a></div>
+<div class="fc"><h5>联系</h5><p>395427432@qq.com</p><p>微信: MutonZhou</p><p>中国 · 重庆</p></div>
 </div>
-
+</footer>
+<div class="fbot"><span>2024 NASCAM. All rights reserved.</span><span>用镜头讲好每一个故事</span></div>
 <script>
-function tp(el){
-  var v=el.parentElement.querySelector('video');
-  if(v.paused){v.play();v.muted=false;el.style.opacity='0';}
-  else{v.pause();el.style.opacity='1';}
+function togglePlay(el){
+  var v=el.parentElement.querySelector("video");
+  if(v.paused){v.play();v.muted=false;el.style.opacity="0";}
+  else{v.pause();el.style.opacity="1";}
 }
-const io=new IntersectionObserver((e)=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');io.unobserve(i.target);}});},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+var io=new IntersectionObserver(function(e){
+  e.forEach(function(i){
+    if(i.isIntersecting){i.target.classList.add("visible");io.unobserve(i.target);}
+  });
+},{threshold:0.1});
+document.querySelectorAll(".reveal").forEach(function(e){io.observe(e);});
 </script>
-
-</body>
-</html>
+</body></html>
